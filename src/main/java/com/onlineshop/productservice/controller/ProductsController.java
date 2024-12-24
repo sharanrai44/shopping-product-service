@@ -1,5 +1,6 @@
 package com.onlineshop.productservice.controller;
 
+import com.onlineshop.productservice.dto.ApiResponse;
 import com.onlineshop.productservice.entity.Products;
 import com.onlineshop.productservice.entity.dto.ProductsDTO;
 import com.onlineshop.productservice.entity.dto.UpdateProductDTO;
@@ -17,42 +18,53 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductsController {
 
+    public static final String SUCCESS = "SUCCESS";
+    public static final String ERROR = "ERROR";
+
+
     private final ProductService productService;
 
-    private Logger logger= LoggerFactory.getLogger(ProductsController.class);
+    private Logger logger = LoggerFactory.getLogger(ProductsController.class);
 
     public ProductsController(ProductService productService) {
         this.productService = productService;
     }
 
     @GetMapping("/all")
-    public List<Products> getProducts(
+    public ResponseEntity<ApiResponse<List<Products>>> getProducts(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String sortBy
     ) {
         logger.info("getProducts is called");
-        return productService.getProductsByCategory(category, sortBy);
+
+        List<Products> productsByCategory = productService.getProductsByCategory(category, sortBy);
+        ApiResponse<List<Products>> listApiResponse = new ApiResponse<>(SUCCESS, productsByCategory, null);
+        return new ResponseEntity<>(listApiResponse, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/add")
-    public ResponseEntity<String> addProduct(@RequestBody ProductsDTO productsDTO) {
+    public ResponseEntity<ApiResponse<String>> addProduct(@RequestBody ProductsDTO productsDTO) {
         String id = productService.addProduct(productsDTO);
-        return new ResponseEntity<>("Added a Product with id : " + id, HttpStatus.OK);
+        ApiResponse<String> response = new ApiResponse<>(SUCCESS, id, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/update")
-    public ResponseEntity<Products> updateProduct(@RequestBody UpdateProductDTO productDTO) {
+    public ResponseEntity<ApiResponse<Products>> updateProduct(@RequestBody UpdateProductDTO productDTO) {
         Products product = productService.updateProducts(productDTO);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+        ApiResponse<Products> response = new ApiResponse<>(SUCCESS, product);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/delete")
-    public ResponseEntity<String> addProduct(@RequestParam String id) {
+    public ResponseEntity<ApiResponse<String>> addProduct(@RequestParam String id) {
         productService.deleteProduct(id);
-        return new ResponseEntity<>("Record Deleted !!" + id, HttpStatus.OK);
+        String msg = "Record Deleted !!" + id;
+        ApiResponse<String> response = new ApiResponse<>(SUCCESS, msg);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
