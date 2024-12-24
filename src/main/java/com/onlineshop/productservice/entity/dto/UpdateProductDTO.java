@@ -1,6 +1,6 @@
-package com.onlineshop.shopping_application.entity.dto;
+package com.onlineshop.productservice.entity.dto;
 
-import com.onlineshop.shopping_application.entity.util.Inventory;
+import com.onlineshop.productservice.entity.util.Inventory;
 import jakarta.validation.constraints.NotNull;
 
 public class UpdateProductDTO {

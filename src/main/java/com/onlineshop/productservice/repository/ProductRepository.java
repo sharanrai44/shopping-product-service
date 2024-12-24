@@ -1,6 +1,6 @@
-package com.onlineshop.shopping_application.repository;
+package com.onlineshop.productservice.repository;
 
-import com.onlineshop.shopping_application.entity.Products;
+import com.onlineshop.productservice.entity.Products;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

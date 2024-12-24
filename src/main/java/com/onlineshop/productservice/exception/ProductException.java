@@ -1,4 +1,4 @@
-package com.onlineshop.shopping_application.exception;
+package com.onlineshop.productservice.exception;
 
 public class ProductException extends RuntimeException {
     public ProductException() {

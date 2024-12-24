@@ -1,9 +1,9 @@
-package com.onlineshop.shopping_application.entity;
+package com.onlineshop.productservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.onlineshop.shopping_application.entity.util.Attribute;
-import com.onlineshop.shopping_application.entity.util.Currency;
-import com.onlineshop.shopping_application.entity.util.Inventory;
+import com.onlineshop.productservice.entity.util.Attribute;
+import com.onlineshop.productservice.entity.util.Currency;
+import com.onlineshop.productservice.entity.util.Inventory;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

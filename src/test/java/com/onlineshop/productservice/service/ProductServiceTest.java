@@ -1,16 +1,17 @@
-package com.onlineshop.shopping_application.service;
+package com.onlineshop.productservice.service;
 
-import com.onlineshop.shopping_application.entity.Products;
-import com.onlineshop.shopping_application.entity.dto.ProductsDTO;
-import com.onlineshop.shopping_application.entity.dto.UpdateProductDTO;
-import com.onlineshop.shopping_application.entity.util.Currency;
-import com.onlineshop.shopping_application.entity.util.Inventory;
-import com.onlineshop.shopping_application.exception.ProductException;
-import com.onlineshop.shopping_application.repository.ProductRepository;
+import com.onlineshop.productservice.entity.Products;
+import com.onlineshop.productservice.entity.dto.ProductsDTO;
+import com.onlineshop.productservice.entity.dto.UpdateProductDTO;
+import com.onlineshop.productservice.entity.util.Currency;
+import com.onlineshop.productservice.entity.util.Inventory;
+import com.onlineshop.productservice.exception.ProductException;
+import com.onlineshop.productservice.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -23,6 +24,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class ProductServiceTest {
+
+    @Mock
+    private  ModelMapper modelMapper;
 
     @Mock
     private ProductRepository productRepository;
@@ -44,6 +48,9 @@ class ProductServiceTest {
                 "Dell", "Hi performance", new Currency("INR", 11111.00),
                 inventory, new ArrayList<>());
         ProductsDTO productDTO = createProductDTO();
+        when( modelMapper.map(productDTO, Products.class)).thenReturn(product1);
+
+
         when(productRepository.findByName("Dell inspiron")).thenReturn(Optional.ofNullable(null));
         when(productRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         String s = productService.addProduct(productDTO);

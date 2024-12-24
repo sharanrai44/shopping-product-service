@@ -1,9 +1,9 @@
-package com.onlineshop.shopping_application.entity.dto;
+package com.onlineshop.productservice.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.onlineshop.shopping_application.entity.util.Attribute;
-import com.onlineshop.shopping_application.entity.util.Currency;
-import com.onlineshop.shopping_application.entity.util.Inventory;
+import com.onlineshop.productservice.entity.util.Attribute;
+import com.onlineshop.productservice.entity.util.Currency;
+import com.onlineshop.productservice.entity.util.Inventory;
 
 import java.util.List;
 

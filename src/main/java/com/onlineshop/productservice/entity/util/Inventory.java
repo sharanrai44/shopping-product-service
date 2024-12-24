@@ -1,4 +1,4 @@
-package com.onlineshop.shopping_application.entity.util;
+package com.onlineshop.productservice.entity.util;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

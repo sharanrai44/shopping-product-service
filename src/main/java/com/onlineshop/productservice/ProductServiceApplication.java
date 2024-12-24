@@ -1,4 +1,4 @@
-package com.onlineshop.shopping_application;
+package com.onlineshop.productservice;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -13,10 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 		}
 )
 @SpringBootApplication
-public class OnlineShoppingApplication {
+public class ProductServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OnlineShoppingApplication.class, args);
+		SpringApplication.run(ProductServiceApplication.class, args);
 	}
 	//docker run -p 3306:3306 --name mysqlinstance -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=onlineshop -d mysql}
 }

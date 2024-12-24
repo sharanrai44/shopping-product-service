@@ -1,9 +1,11 @@
-package com.onlineshop.shopping_application.controller;
+package com.onlineshop.productservice.controller;
 
-import com.onlineshop.shopping_application.entity.Products;
-import com.onlineshop.shopping_application.entity.dto.ProductsDTO;
-import com.onlineshop.shopping_application.entity.dto.UpdateProductDTO;
-import com.onlineshop.shopping_application.service.ProductService;
+import com.onlineshop.productservice.entity.Products;
+import com.onlineshop.productservice.entity.dto.ProductsDTO;
+import com.onlineshop.productservice.entity.dto.UpdateProductDTO;
+import com.onlineshop.productservice.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +19,8 @@ public class ProductsController {
 
     private final ProductService productService;
 
+    private Logger logger= LoggerFactory.getLogger(ProductsController.class);
+
     public ProductsController(ProductService productService) {
         this.productService = productService;
     }
@@ -24,8 +28,9 @@ public class ProductsController {
     @GetMapping("/all")
     public List<Products> getProducts(
             @RequestParam(required = false) String category,
-            @RequestParam(defaultValue = "inventory.available") String sortBy
+            @RequestParam(required = false) String sortBy
     ) {
+        logger.info("getProducts is called");
         return productService.getProductsByCategory(category, sortBy);
     }
 

@@ -1,14 +1,14 @@
-package com.onlineshop.shopping_application.service;
+package com.onlineshop.productservice.service;
 
-import com.onlineshop.shopping_application.entity.Products;
-import com.onlineshop.shopping_application.entity.dto.ProductsDTO;
-import com.onlineshop.shopping_application.entity.dto.UpdateProductDTO;
-import com.onlineshop.shopping_application.entity.util.Currency;
-import com.onlineshop.shopping_application.exception.ProductException;
-import com.onlineshop.shopping_application.mapper.ProductsMapper;
-import com.onlineshop.shopping_application.repository.ProductRepository;
+import com.onlineshop.productservice.entity.Products;
+import com.onlineshop.productservice.entity.dto.ProductsDTO;
+import com.onlineshop.productservice.entity.dto.UpdateProductDTO;
+import com.onlineshop.productservice.entity.util.Currency;
+import com.onlineshop.productservice.exception.ProductException;
+import com.onlineshop.productservice.repository.ProductRepository;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -22,11 +22,14 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
+    private final ModelMapper modelMapper;
+
     private final ProductRepository productRepository;
 
     private final MongoTemplate mongoTemplate;
 
-    public ProductService(ProductRepository productRepository, MongoTemplate mongoTemplate) {
+    public ProductService(ModelMapper modelMapper, ProductRepository productRepository, MongoTemplate mongoTemplate) {
+        this.modelMapper = modelMapper;
         this.productRepository = productRepository;
         this.mongoTemplate = mongoTemplate;
     }
@@ -35,7 +38,7 @@ public class ProductService {
         if (productRepository.findByName(productsDTO.getName()).isPresent()) {
             throw new ProductException("Element already exist");
         }
-        Products product = ProductsMapper.toProducts(productsDTO);
+        Products product = convertToProduct(productsDTO);
         Products save = productRepository.save(product);
         return save.getId();
     }
@@ -63,8 +66,16 @@ public class ProductService {
         if (StringUtils.isNotEmpty(category)) {
             query.addCriteria(Criteria.where("category").is(category));
         }
+        if(StringUtils.isEmpty(sortBy)){
+            sortBy="inventory.available";
+        }
+
         query.with(Sort.by(Sort.Direction.DESC, sortBy));
         return mongoTemplate.find(query, Products.class);
+    }
+
+    public Products convertToProduct(ProductsDTO productsDTO) {
+        return modelMapper.map(productsDTO, Products.class);
     }
 }
 

@@ -1,4 +1,4 @@
-package com.onlineshop.shopping_application.service;
+package com.onlineshop.productservice.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

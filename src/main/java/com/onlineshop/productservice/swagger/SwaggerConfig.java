@@ -1,4 +1,4 @@
-package com.onlineshop.shopping_application.swagger;
+package com.onlineshop.productservice.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
